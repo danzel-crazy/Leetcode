@@ -10,26 +10,25 @@
  * };
  */
 class Solution {
+private:
+    TreeNode* prev = nullptr;
+
 public:
     bool isValidBST(TreeNode* root) {
-        stack <TreeNode*> ans;
-        TreeNode* pre = nullptr;
-        while(!ans.empty() || root!= nullptr){
-            while(root != nullptr){
-                ans.push(root);
-                root = root -> left;
-            }
-            
-            root = ans.top();
-            ans.pop();
-                
-            if(pre != nullptr && pre->val >= root->val){
-                return false;
-            }
-            
-            pre = root;
-            root = root->right;   
+        return inorder(root);
+    }
+
+    bool inorder(TreeNode* root) {
+        if (root == nullptr) {
+            return true;
         }
-        return true;
+        if (!inorder(root->left)) {
+            return false;
+        }
+        if (prev != nullptr && root->val <= prev->val) {
+            return false;
+        }
+        prev = root;
+        return inorder(root->right);
     }
 };
