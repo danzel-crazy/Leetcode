@@ -1,18 +1,19 @@
 class Solution {
 public:
-    int dp[100]= {0};
     int climbStairs(int n) {
-        dp[0] = 1;
-        for(int i = 0; i <= n; i++){
-            if(i+1 <= n){
-               dp[i+1] += dp[i]; 
-            }
-            if(i+2 <= n){
-               dp[i+2] += dp[i]; 
-            }
-            
+        if(n == 1 || n==2)
+        {
+            return n;
         }
-        
-        return dp[n];
+        int a = 1;
+        int b = 2;
+        int c = 0;
+        for(int i=3;i<=n;i++)
+        {
+            c = a + b;
+            a = b;
+            b = c;
+        }
+        return c;
     }
 };
