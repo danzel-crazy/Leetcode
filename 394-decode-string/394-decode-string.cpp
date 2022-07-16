@@ -1,29 +1,38 @@
 class Solution {
 public:
     string decodeString(string s) {
-        stack <pair <int, string>> a;
-        string ans = "";
-        pair <int, string> temp = {0,""};
-        for(int i = 0; i < s.length(); i++){
-            if(s[i] <= '9'){
-                temp.first = temp.first*10 + s[i]-'0';
-            }
-            else if(s[i] == '['){
-                a.push(temp);
-                temp = {0,""};
-            }
-            else if(s[i] == ']'){    
-                cout << a.top().first << endl;
-                for(int i = 0; i < a.top().first; i++){
-                    a.top().second.append(temp.second);
-                }
-                temp.second = a.top().second;
-                a.pop();
+        stack<char>st;
+        for(int i = 0 ; i<s.length() ; i++){
+            if(s[i] != ']' ){
+                st.push(s[i]);
             }
             else{
-                temp.second.push_back(s[i]);
+                string str = "";
+                while(st.top() != '['){
+                    str = st.top()+str;
+                    st.pop();
+                }
+                st.pop();
+                string num = "";
+                while(!st.empty() && isdigit(st.top())){
+                    num += st.top();
+                    st.pop();
+                }
+                reverse(num.begin(),num.end());
+                int k = stoi(num);
+                while(k--){
+                    for(int j = 0 ; j<str.size() ; j++){
+                        st.push(str[j]);
+                    }
+                }
             }
         }
-        return temp.second;
+        string ans = "";
+        while(!st.empty()){
+            ans +=st.top();
+            st.pop();
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
     }
 };
