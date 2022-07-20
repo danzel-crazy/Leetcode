@@ -12,12 +12,13 @@ public:
     }
     
     bool isHappy(int n) {
-        set <int> check;
-        while(n != 1 && !check.count(n)){
-            check.insert(n);
-            n = getnext(n);
+        int slow = n;
+        int fast = getnext(n);
+        while(slow != 1 && slow != fast){
+            slow = getnext(slow);
+            fast = getnext(getnext(fast));
         }
         
-        return n == 1;
+        return fast == 1;
     }
 };
