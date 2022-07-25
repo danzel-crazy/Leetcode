@@ -11,21 +11,26 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        string a = "";
-        while(head != NULL){
-            a +=  '0' + head->val;
-            head = head -> next;
-        }
-        
-        string b = a;
-        reverse(b.begin(), b.end());
-        // cout << a << endl;
-        // cout << b << endl;
-        if(a == b){
-            return true;
-        }
-        else{
-            return false;
-        }
+        ListNode* cur = head;
+			vector <int> vec;
+			while(cur!=NULL)
+			{
+				vec.push_back(cur->val);
+				cur = cur->next;
+			}
+			int n = vec.size();
+			int start=0; int end=n-1;
+			while(start<=end)
+			{
+				if(vec[start]==vec[end])
+				{
+					start++;
+					end--;
+					continue;
+				}
+				else
+					return 0;
+			}
+			return 1; 
     }
 };
