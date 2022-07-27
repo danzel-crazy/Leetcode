@@ -16,17 +16,14 @@ public:
         ListNode *odd = head;
         ListNode *even = second;
         
-        while(odd->next != NULL && even->next != NULL){
+        while(even != NULL && even->next != NULL){
             odd->next = even->next;
-            even->next = odd->next->next;
-            
             odd =odd->next;
+            even->next = odd->next;
             even = even->next;
         }
         
-        if(odd != NULL){
-            odd->next = second;
-        }
+        odd->next = second;
         
         return head;
     }
