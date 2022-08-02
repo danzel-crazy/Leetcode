@@ -13,28 +13,22 @@ class Solution {
 public:
     bool check = true; 
     
-    int dfs(TreeNode* root){
+    int dfs(TreeNode* root, bool &check){
         if(root == nullptr) return 0;
         
-        int left = dfs(root->left);
-        int right = dfs(root->right);
+        int left = dfs(root->left, check);
+        int right = dfs(root->right, check);
         
-        if(left == -1 || right == -1) return -1;
-        
-        left +=1;
-        right += 1;
-        
-        if (abs(left - right) > 1) return -1;
-        if(right > left) return right;
-        else return left;
+        if (abs(left - right) > 1) check = false;
+        return max(left, right) + 1;
     }
     
     bool isBalanced(TreeNode* root) {
+        bool check = true;
+        
         if(root == nullptr) return true;
-        int left = dfs(root->left);
-        int right = dfs(root->right);
-        if(left == -1 || right == -1) return false;
-        if (abs(left - right) <= 1) return true;
-        else return false;
+        int ans = dfs(root, check);
+        
+        return check;
     }
 };
