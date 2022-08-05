@@ -11,28 +11,23 @@
  */
 class Solution {
     public:
-        int c=0;
-        void solve(TreeNode *root,int target,vector<int> v)
-        {
-            if(!root)
-                return;
-            v.push_back(root->val);
-            long long sum=0;
-            for(int i=v.size()-1;i>=0;i--)
-            {
-                sum+=v[i];
-                if(sum==target)
-                    c++;
-            }
-            solve(root->left,target,v);
-            solve(root->right,target,v);
-            v.pop_back();
-        }
-        int pathSum(TreeNode* root, int targetSum) {
-
-            vector<int> v;
-            solve(root,targetSum,v);
-            return c;
-
-        }
+        int count = 0;
+    map<long long, int>m;
+    void dfs(TreeNode* root, int targetSum, long long currSum){
+        if(root == NULL)
+            return;
+        currSum += root->val;
+        if(currSum == targetSum)count++;
+        if(m.find(currSum - targetSum)!= m.end())
+            count += m[currSum - targetSum];
+        m[currSum]++;
+        dfs(root->left, targetSum, currSum);
+        dfs(root->right, targetSum, currSum);
+        m[currSum]--;
+    }
+    
+    int pathSum(TreeNode* root, int targetSum) {
+        dfs(root, targetSum, 0);
+        return count;
+    }
 };
