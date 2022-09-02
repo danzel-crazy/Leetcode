@@ -11,28 +11,32 @@
  */
 class Solution {
 public:
-    void bfs(vector <pair<double, double>> &count, TreeNode* root, int level){
-        if(root == nullptr) return;
-        
-        if(count.size() <= level){
-            count.push_back(make_pair(root->val, 1));
-        }
-        else{
-            count[level].first += root->val;
-            count[level].second += 1;
-        }
-        
-        bfs(count, root->left, level+1);
-        bfs(count, root->right, level+1);
-    }
     vector<double> averageOfLevels(TreeNode* root) {
-        vector <pair<double, double>> count;
-        vector <double> ans;
-        bfs(count, root, 0);
-        for(auto i : count){
-            double temp = (double)i.first / (double)i.second;
-            ans.push_back(temp);
+
+        queue<TreeNode*> q;
+
+        q.push(root);
+        vector<double> ans;
+        while(!q.empty()) {
+            int n = q.size();
+            double sum = 0;
+
+            for(int i = 0; i < n; i++) {
+
+                TreeNode* node = q.front();
+
+                q.pop();
+
+                sum += node->val;
+
+                if(node->left) q.push(node->left);
+
+                if(node->right) q.push(node->right);
+            }
+
+            ans.push_back(sum / n);
         }
+
         return ans;
     }
 };
