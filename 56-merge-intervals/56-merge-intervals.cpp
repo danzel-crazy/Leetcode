@@ -1,48 +1,21 @@
 class Solution {
 public:
-    static bool mycompare(vector <int> &a, vector <int> &b){
-        return a[0] < b[0];
-    }
-    
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        sort(intervals.begin(), intervals.end(), mycompare);
-        vector<vector<int>> ans;
-        
-        bool check = false;
-        for(int i = 0; i < intervals.size(); i++){
-            check = false;
-            int n = ans.size();
-            if(n > 0){
-                if(ans[n-1][1] >= intervals[i][0]){
-                    if(ans[n-1][1] < intervals[i][1]){
-                        int temp = ans[n-1][0];
-                        ans.pop_back();
-                        ans.push_back({temp, intervals[i][1]}); 
-                        check = true;
-                    }
-                    else{
-                        continue;
-                    }
-                }
+        sort(intervals.begin(), intervals.end());
+
+        vector<vector<int>> merged;
+        for (auto interval : intervals) {
+            // if the list of merged intervals is empty or if the current
+            // interval does not overlap with the previous, simply append it.
+            if (merged.empty() || merged.back()[1] < interval[0]) {
+                merged.push_back(interval);
             }
-            
-            if(!check && i+1 < intervals.size()){
-                if(intervals[i][1] >= intervals[i+1][0]){
-                    if(intervals[i][1] > intervals[i+1][1])
-                        ans.push_back(intervals[i]);
-                    else{
-                        ans.push_back({intervals[i][0], intervals[i+1][1]});
-                    }
-                }
-                else{
-                    ans.push_back(intervals[i]);
-                }
-            }
-            else if(!check){
-                ans.push_back(intervals[i]);
+            // otherwise, there is overlap, so we merge the current and previous
+            // intervals.
+            else {
+                merged.back()[1] = max(merged.back()[1], interval[1]);
             }
         }
-        
-        return ans;
+        return merged;
     }
 };
