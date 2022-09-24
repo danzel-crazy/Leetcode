@@ -1,22 +1,15 @@
 class Solution {
 public:
     bool canJump(vector<int>& nums) {
-        int n = nums.size();
-        if(n == 1) return true;
-        int dp[10001] = {0};
-        dp[0] = 1;
-        
-        for(int i = 0; i < n-1; i++){
-            if(dp[i] == 0) break;
-            int temp = nums[i];
-            while(temp){
-                if(temp + i < n){
-                    dp[temp+i] = 1;
-                }
-                temp--;
-            }
+        int size=nums.size();
+        int step=nums[0];
+        for(int i=1;i<size;++i){
+            step--;
+            if(step<0)
+               return false;
+            if(nums[i]>step)
+               step=nums[i];
         }
-            
-        return dp[n-1];
+        return true;
     }
 };
