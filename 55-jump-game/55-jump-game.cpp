@@ -7,7 +7,7 @@ public:
         dp[0] = 1;
         
         for(int i = 0; i < n-1; i++){
-            if(dp[i] == 0) continue;
+            if(dp[i] == 0) break;
             int temp = nums[i];
             while(temp){
                 if(temp + i < n){
